@@ -9,17 +9,14 @@ export function NavBar(props) {
           Fixed Navbar
         </a>
         <div className="d-flex gap-4 align-content-center justify-content-around">
-          <button type="button" className="btn btn-primary">
+          {/* <button type="button" className="btn btn-primary">
             <i className="bi bi-geo-alt"></i>
           </button>
           <button type="button" className="btn btn-primary">
             <i className="bi bi-geo"></i>
-          </button>
+          </button> */}
           <button type="button" className="btn btn-primary">
             <i className="bi bi-bricks"></i>
-          </button>
-          <button type="button" className="btn btn-primary">
-            <i className="bi bi-virus"></i>
           </button>
           <button type="button" className="btn btn-primary">
             <i className="bi bi-arrow-counterclockwise"></i>

@@ -21,17 +21,16 @@ export function createGrid(width: number, height: number) {
         isStart: false,
         isTarget: false,
         isWall: false,
-        weight: 1,
+        weight: randomWeight(5),
       });
     }
   }
   const n = height * width;
   const start = Math.floor((n / 2) * Math.random());
   const end = Math.floor((n / 2) * Math.random() + n / 2);
-  const numberOfWalls = n / 5;
   grid[start].isStart = true;
   grid[end].isTarget = true;
-  for (let i = 0; i < numberOfWalls; i++) {
+  for (let i = 0; i < n / 5; i++) {
     const randomPoint = Math.floor(Math.random() * n);
     if (randomPoint !== start && randomPoint !== end) {
       grid[randomPoint].isWall = true;
@@ -39,4 +38,8 @@ export function createGrid(width: number, height: number) {
   }
 
   return grid;
+}
+
+function randomWeight(max: number) {
+  return Math.floor(Math.random() * max + 1);
 }

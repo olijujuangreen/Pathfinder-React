@@ -1,9 +1,9 @@
 import "./Grid.css";
-import { createGrid } from "../utils/startingGrid";
+import { Cell } from "../utils/startingGrid";
 import { GridCell } from "./GridCell";
 
-export function Grid() {
-  const grid = createGrid(25, 50);
+export function Grid(props: { grid: Cell[] }) {
+  const { grid } = props;
 
   return (
     <main className="flex-shrink-0 bg-light">

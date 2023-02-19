@@ -1,5 +1,9 @@
 :root {
   --border-color: #023047;
+  --start-color: #fb8500;
+  --target-color: #219ebc;
+  --path-color: #ffb703;
+  --visited-color: #8ecae6;
 }
 
 body {
