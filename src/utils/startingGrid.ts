@@ -26,8 +26,8 @@ export function createGrid(width: number, height: number) {
     }
   }
   const n = height * width;
-  const start = Math.floor((n / 2) * Math.random());
-  const end = Math.floor((n / 2) * Math.random() + n / 2);
+  const start = Math.floor((n / 4) * Math.random());
+  const end = Math.floor((n / 4) * Math.random() + n * (3 / 4));
   grid[start].isStart = true;
   grid[end].isTarget = true;
   for (let i = 0; i < n / 5; i++) {
