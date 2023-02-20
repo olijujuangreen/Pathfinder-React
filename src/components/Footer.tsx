@@ -6,7 +6,10 @@ export function Footer() {
       <div className="container">
         <span>
           Source Code at:{" "}
-          <a href="https://github.com/olijujuangreen/Pathfinder-React">
+          <a
+            className="link-info"
+            href="https://github.com/olijujuangreen/Pathfinder-React"
+          >
             GitHub
           </a>{" "}
         </span>
