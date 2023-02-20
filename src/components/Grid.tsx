@@ -5,10 +5,11 @@ import { GridCell } from "./GridCell";
 type GridProps = {
   grid: Cell[];
   hasWalls: boolean;
+  runAlgo: boolean;
 };
 
 export function Grid(props: GridProps) {
-  const { grid, hasWalls } = props;
+  const { grid, hasWalls, runAlgo } = props;
   return (
     <main className="flex-shrink-0 bg-light">
       <div className="grid">
