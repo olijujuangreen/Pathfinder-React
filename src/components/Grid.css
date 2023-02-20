@@ -1,5 +1,5 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(50, minMax(1.5rem, calc(100vw / 50)));
-  margin: auto;
+  margin: 0;
 }
