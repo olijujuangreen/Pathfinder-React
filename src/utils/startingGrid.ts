@@ -10,7 +10,7 @@ export type Cell = {
   weight: number;
 };
 
-export type Walls = Set<number>;
+export type Walls = Set<string>;
 
 export function createGrid(
   width: number,
@@ -39,8 +39,9 @@ export function createGrid(
   for (let i = 0; i < n / 5; i++) {
     const randomPoint = Math.floor(Math.random() * n);
     if (randomPoint !== start && randomPoint !== end) {
-      grid[randomPoint].isWall = true;
-      walls.add(randomPoint);
+      const cell = grid[randomPoint];
+      cell.isWall = true;
+      walls.add(cell.id);
     }
   }
 
