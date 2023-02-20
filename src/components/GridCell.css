@@ -1,0 +1,26 @@
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vw / 50);
+  min-height: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.start {
+  background-color: var(--start-color);
+  font-size: 1.2rem;
+}
+
+.target {
+  background-color: var(--target-color);
+  font-size: 1.2rem;
+}
+
+.wall {
+  background-color: var(--border-color);
+}
+
+.visited {
+  background-color: var(--visited-color);
+}
