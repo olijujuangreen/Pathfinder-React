@@ -23,7 +23,6 @@ export function NavBar(props: NavBarProps) {
             aria-label="Default select example"
             value={algoSelection}
             onChange={(e) => {
-              console.log(e.target.value);
               setAlgoSelection(e.target.value);
             }}
           >
@@ -34,7 +33,7 @@ export function NavBar(props: NavBarProps) {
         </div>
         <button
           type="button"
-          className="btn btn-light"
+          className={hasWalls ? "btn btn-light active" : "btn btn-light"}
           onClick={() => {
             setHasWalls(!hasWalls);
           }}
