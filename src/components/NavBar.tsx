@@ -1,18 +1,12 @@
 import React from "react";
+import { Cell, Walls } from "../utils/startingGrid";
 
 type NavBarProps = {
   setGrid: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: string;
-        x: number;
-        y: number;
-        isStart: boolean;
-        isTarget: boolean;
-        isWall: boolean;
-        weight: number;
-      }[]
-    >
+    React.SetStateAction<{
+      grid: Cell[];
+      walls: Walls;
+    }>
   >;
   setWalls: React.Dispatch<React.SetStateAction<boolean>>;
   algoSelection: string;

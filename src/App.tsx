@@ -3,6 +3,7 @@ import { NavBar } from "./components/NavBar";
 import { Grid } from "./components/Grid";
 import { Footer } from "./components/Footer";
 import { createGrid } from "./utils/startingGrid";
+import { Cell, Walls } from "./utils/startingGrid";
 
 function App() {
   const [algoSelection, setAlgoSelection] = useState("BFS");

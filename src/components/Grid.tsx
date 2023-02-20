@@ -1,10 +1,14 @@
 import "./Grid.css";
-import { Cell } from "../utils/startingGrid";
+import { Cell, Walls } from "../utils/startingGrid";
 import { GridCell } from "./GridCell";
 
-export function Grid(props: { grid: Cell[] }) {
-  const { grid } = props;
+type GridProps = {
+  grid: Cell[];
+  walls: Walls;
+};
 
+export function Grid(props: GridProps) {
+  const { grid, walls } = props;
   return (
     <main className="flex-shrink-0 bg-light">
       <div className="grid">
