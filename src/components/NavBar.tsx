@@ -1,26 +1,17 @@
 import React from "react";
+import { Cell } from "../utils/startingGrid";
 
 type NavBarProps = {
-  setGrid: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: string;
-        x: number;
-        y: number;
-        isStart: boolean;
-        isTarget: boolean;
-        isWall: boolean;
-        weight: number;
-      }[]
-    >
-  >;
-  setWalls: React.Dispatch<React.SetStateAction<boolean>>;
+  setGrid: React.Dispatch<React.SetStateAction<Cell[]>>;
+  hasWalls: boolean;
+  setHasWalls: React.Dispatch<React.SetStateAction<boolean>>;
   algoSelection: string;
   setAlgoSelection: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export function NavBar(props: NavBarProps) {
-  const { setGrid, setWalls, algoSelection, setAlgoSelection } = props;
+  const { setGrid, hasWalls, setHasWalls, algoSelection, setAlgoSelection } =
+    props;
   return (
     <div className="navbar navbar-expand navbar-dark flex-shrink-0 fixed bg-primary border-bottom border-dark w-100 justify-content-around">
       <div className="navbar-brand">Algorithm Visualizer</div>
@@ -32,7 +23,6 @@ export function NavBar(props: NavBarProps) {
             aria-label="Default select example"
             value={algoSelection}
             onChange={(e) => {
-              console.log(e.target.value);
               setAlgoSelection(e.target.value);
             }}
           >
@@ -41,7 +31,13 @@ export function NavBar(props: NavBarProps) {
             <option value="DIJKSTRA">Dijkstra</option>
           </select>
         </div>
-        <button type="button" className="btn btn-light">
+        <button
+          type="button"
+          className={hasWalls ? "btn btn-light active" : "btn btn-light"}
+          onClick={() => {
+            setHasWalls(!hasWalls);
+          }}
+        >
           <div className="brand">Walls</div>
         </button>
         <button type="button" className="btn btn-light">

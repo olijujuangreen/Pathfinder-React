@@ -1,8 +1,13 @@
 import "./GridCell.css";
 import { Cell } from "../utils/startingGrid";
 
-export function GridCell(props: { cell: Cell }) {
-  const { cell } = props;
+type GridCellType = {
+  cell: Cell;
+  hasWalls: boolean;
+};
+
+export function GridCell(props: GridCellType) {
+  const { cell, hasWalls } = props;
 
   let classList = "cell";
 
@@ -14,7 +19,7 @@ export function GridCell(props: { cell: Cell }) {
     classList = "cell target";
   }
 
-  if (cell.isWall) {
+  if (cell.isWall && hasWalls) {
     classList = "cell wall";
   }
 

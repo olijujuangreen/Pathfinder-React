@@ -33,7 +33,8 @@ export function createGrid(width: number, height: number) {
   for (let i = 0; i < n / 5; i++) {
     const randomPoint = Math.floor(Math.random() * n);
     if (randomPoint !== start && randomPoint !== end) {
-      grid[randomPoint].isWall = true;
+      const cell = grid[randomPoint];
+      cell.isWall = true;
     }
   }
 
