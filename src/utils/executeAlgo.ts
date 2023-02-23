@@ -33,7 +33,7 @@ export function executeAlgo(
       orderOfVisits,
       path
     );
-    return { orderOfVisits, path };
+    return { orderOfVisits, path: path.reverse() };
   }
 
   // TEMPORARY FIX

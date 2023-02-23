@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { GridInfo } from "../utils/startingGrid";
 import { GridCell } from "./GridCell";
-import { executeAlgo } from "../utils/executeAlgo.js";
+import { executeAlgo, Point } from "../utils/executeAlgo.js";
 import { setTimeout } from "timers";
 
 type GridProps = {
@@ -20,23 +20,27 @@ export function Grid(props: GridProps) {
     cellTypeRef.push([] as React.Dispatch<React.SetStateAction<string>>[]);
   }
 
-  const delayMultiplier = 10;
+  const delayMultiplier = 5;
 
   useEffect(() => {
     if (runAlgo) {
       const { orderOfVisits, path } = executeAlgo(grid, "DFS", showWalls);
       if (orderOfVisits) {
-        orderOfVisits.forEach(
-          (point: { x: number; y: number }, index: number) => {
+        orderOfVisits.forEach((point: Point, index: number) => {
+          setTimeout(() => {
+            cellTypeRef[point.y][point.x]("visited");
+          }, index * delayMultiplier);
+        });
+      }
+      setTimeout(() => {
+        if (path) {
+          path.forEach((point: Point, index) => {
             setTimeout(() => {
-              cellTypeRef[point.y][point.x]("visited");
+              cellTypeRef[point.y][point.x]("path");
             }, index * delayMultiplier);
-          }
-        );
-      }
-      if (path) {
-        console.log(path);
-      }
+          });
+        }
+      }, orderOfVisits.length * delayMultiplier);
     }
   }, [runAlgo]);
 
