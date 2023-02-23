@@ -1,70 +1,57 @@
-/**
- * @param {character[][]} grid
- * @return {number}
- */
+import { Grid } from "./startingGrid";
+
 // We setup our direction modifiers
-// const DIRECTIONS = [
-//   { row: 1, col: 0 }, // up
-//   { row: 0, col: 1 }, // right
-//   { row: -1, col: 0 }, // down
-//   { row: 0, col: -1 }, // left
-// ];
+const DIRECTIONS = [
+  { row: 1, col: 0 }, // up
+  { row: 0, col: 1 }, // right
+  { row: -1, col: 0 }, // down
+  { row: 0, col: -1 }, // left
+];
 
-type Grid = {
-  id: string;
-  x: number;
-  y: number;
-  isStart: boolean;
-  isTarget: boolean;
-  isWall: boolean;
-  weight: number;
-}[];
-
-// For DFS to work, we need a few things:
-// Where we are currently -> row: number, col: number
-// All of our grid info -> grid: [number[]], maxWidth: number, maxHeight: number
-// And a record of where we have been -> visited: [boolean[]]
 export function depthFirstSearch(
-  point: number,
+  point: { x: number; y: number },
   grid: Grid,
   maxWidth: number,
   maxHeight: number,
-  visited: boolean[]
+  visited: boolean[][],
+  orderOfVisits: { x: number; y: number }[],
+  path: { x: number; y: number }[]
 ) {
   // First thing, mark that we have been here
-  const cell = document.getElementById(grid[point].id);
-  if (cell) {
-    cell.classList.add("visited");
-  }
+  orderOfVisits.push(point);
+  visited[point.y][point.x] = true;
 
-  visited[point] = true;
+  // If target, return true
+  if (grid[point.y][point.x].isTarget) {
+    path.push(point);
+    return true;
+  }
 
   // Look in each direction and create a coord for that square
-  const points = [];
-  // Create up
-  points.push(point - maxWidth);
-  // Create right
-  if (point % maxWidth !== 0) {
-    points.push(point + 1);
-  }
-  // Create down
-  points.push(point + maxWidth);
-  // Create left
-  if ((point - 1) % maxWidth !== 0) {
-    points.push(point - 1);
-  }
-  const n = maxHeight * maxWidth;
-  // Check that the new coord is on the grid, then chack that
-  // the new coord is part of the island and we haven't been there.
-  points.forEach((newPoint) => {
+  for (const direction of DIRECTIONS) {
+    const newPoint = { x: point.x + direction.col, y: point.y + direction.row };
     if (
-      newPoint >= 0 &&
-      newPoint < n &&
-      !grid[newPoint].isWall &&
-      !visited[newPoint]
+      newPoint.x > 0 &&
+      newPoint.x < maxWidth &&
+      newPoint.y > 0 &&
+      newPoint.y < maxHeight &&
+      !grid[newPoint.y][newPoint.x].isWall &&
+      !visited[newPoint.y][newPoint.x]
     ) {
-      // If all of those checks pass, we recursively search the created coord.
-      depthFirstSearch(newPoint, grid, maxWidth, maxHeight, visited);
+      if (
+        depthFirstSearch(
+          newPoint,
+          grid,
+          maxWidth,
+          maxHeight,
+          visited,
+          orderOfVisits,
+          path
+        )
+      ) {
+        path.push(point);
+        return true;
+      }
     }
-  });
+  }
 }

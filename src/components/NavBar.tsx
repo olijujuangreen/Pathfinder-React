@@ -1,17 +1,22 @@
 import React from "react";
-import { Cell } from "../utils/startingGrid";
+import { GridInfo } from "../utils/startingGrid";
 
 type NavBarProps = {
-  setGrid: React.Dispatch<React.SetStateAction<Cell[]>>;
-  hasWalls: boolean;
-  setHasWalls: React.Dispatch<React.SetStateAction<boolean>>;
+  showWalls: boolean;
+  setShowWalls: React.Dispatch<React.SetStateAction<boolean>>;
   algoSelection: string;
   setAlgoSelection: React.Dispatch<React.SetStateAction<string>>;
+  setRunAlgo: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function NavBar(props: NavBarProps) {
-  const { setGrid, hasWalls, setHasWalls, algoSelection, setAlgoSelection } =
-    props;
+  const {
+    showWalls,
+    setShowWalls,
+    algoSelection,
+    setAlgoSelection,
+    setRunAlgo,
+  } = props;
   return (
     <div className="navbar navbar-expand navbar-dark flex-shrink-0 fixed bg-primary border-bottom border-dark w-100 justify-content-around">
       <div className="navbar-brand">Algorithm Visualizer</div>
@@ -33,9 +38,9 @@ export function NavBar(props: NavBarProps) {
         </div>
         <button
           type="button"
-          className={hasWalls ? "btn btn-light active" : "btn btn-light"}
+          className={showWalls ? "btn btn-light active" : "btn btn-light"}
           onClick={() => {
-            setHasWalls(!hasWalls);
+            setShowWalls(!showWalls);
           }}
         >
           <div className="brand">Walls</div>
@@ -43,7 +48,13 @@ export function NavBar(props: NavBarProps) {
         <button type="button" className="btn btn-light">
           <i className="bi bi-arrow-counterclockwise"></i>
         </button>
-        <button type="button" className="btn btn-light">
+        <button
+          type="button"
+          className="btn btn-light"
+          onClick={() => {
+            setRunAlgo(true);
+          }}
+        >
           <i className="bi bi-caret-right"></i>
         </button>
       </div>
