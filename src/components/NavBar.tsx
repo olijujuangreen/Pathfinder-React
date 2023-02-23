@@ -6,6 +6,7 @@ type NavBarProps = {
   setShowWalls: React.Dispatch<React.SetStateAction<boolean>>;
   algoSelection: string;
   setAlgoSelection: React.Dispatch<React.SetStateAction<string>>;
+  runAlgo: boolean;
   setRunAlgo: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -15,6 +16,7 @@ export function NavBar(props: NavBarProps) {
     setShowWalls,
     algoSelection,
     setAlgoSelection,
+    runAlgo,
     setRunAlgo,
   } = props;
   return (
@@ -38,9 +40,17 @@ export function NavBar(props: NavBarProps) {
         </div>
         <button
           type="button"
-          className={showWalls ? "btn btn-light active" : "btn btn-light"}
+          className={
+            runAlgo
+              ? "btn btn-light disabled"
+              : showWalls
+              ? "btn btn-light active"
+              : "btn btn-light"
+          }
           onClick={() => {
-            setShowWalls(!showWalls);
+            if (!runAlgo) {
+              setShowWalls(!showWalls);
+            }
           }}
         >
           <div className="brand">Walls</div>

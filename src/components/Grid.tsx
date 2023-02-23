@@ -24,13 +24,15 @@ export function Grid(props: GridProps) {
 
   useEffect(() => {
     if (runAlgo) {
-      const { orderOfVisits, path } = executeAlgo(grid, "DFS");
+      const { orderOfVisits, path } = executeAlgo(grid, "DFS", showWalls);
       if (orderOfVisits) {
-        orderOfVisits.forEach((point, index) => {
-          setTimeout(() => {
-            cellTypeRef[point.y][point.x]("visited");
-          }, index * delayMultiplier);
-        });
+        orderOfVisits.forEach(
+          (point: { x: number; y: number }, index: number) => {
+            setTimeout(() => {
+              cellTypeRef[point.y][point.x]("visited");
+            }, index * delayMultiplier);
+          }
+        );
       }
       if (path) {
         console.log(path);

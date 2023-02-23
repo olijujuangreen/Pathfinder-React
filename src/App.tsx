@@ -19,6 +19,7 @@ function App() {
         setShowWalls={setShowWalls}
         algoSelection={algoSelection}
         setAlgoSelection={setAlgoSelection}
+        runAlgo={runAlgo}
         setRunAlgo={setRunAlgo}
       />
       <Grid grid={grid} showWalls={showWalls} runAlgo={runAlgo} />

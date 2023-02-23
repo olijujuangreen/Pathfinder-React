@@ -13,6 +13,7 @@ export function depthFirstSearch(
   grid: Grid,
   maxWidth: number,
   maxHeight: number,
+  obeyWalls: boolean,
   visited: boolean[][],
   orderOfVisits: { x: number; y: number }[],
   path: { x: number; y: number }[]
@@ -31,11 +32,11 @@ export function depthFirstSearch(
   for (const direction of DIRECTIONS) {
     const newPoint = { x: point.x + direction.col, y: point.y + direction.row };
     if (
-      newPoint.x > 0 &&
+      newPoint.x >= 0 &&
       newPoint.x < maxWidth &&
-      newPoint.y > 0 &&
+      newPoint.y >= 0 &&
       newPoint.y < maxHeight &&
-      !grid[newPoint.y][newPoint.x].isWall &&
+      (obeyWalls ? !grid[newPoint.y][newPoint.x].isWall : true) &&
       !visited[newPoint.y][newPoint.x]
     ) {
       if (
@@ -44,6 +45,7 @@ export function depthFirstSearch(
           grid,
           maxWidth,
           maxHeight,
+          obeyWalls,
           visited,
           orderOfVisits,
           path

@@ -18,11 +18,7 @@ export function GridCell(props: GridCellType) {
     <div className={classList} id={cell.id}>
       {cell.isStart && <i className="bi bi-cursor-fill"></i>}
       {cell.isTarget && <i className="bi bi-flag-fill"></i>}
-      {/* {!cell.isStart &&
-        !cell.isWall &&
-        !cell.isTarget &&
-        cell.weight > 1 &&
-        cell.weight} */}
+      {/* {!cell.isStart && !cell.isWall && !cell.isTarget && cell.weight} */}
     </div>
   );
 }
