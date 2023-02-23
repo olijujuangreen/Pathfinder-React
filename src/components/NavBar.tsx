@@ -8,6 +8,8 @@ type NavBarProps = {
   setAlgoSelection: React.Dispatch<React.SetStateAction<string>>;
   runAlgo: boolean;
   setRunAlgo: React.Dispatch<React.SetStateAction<boolean>>;
+  resetGrid: boolean;
+  setResetGrid: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function NavBar(props: NavBarProps) {
@@ -18,6 +20,8 @@ export function NavBar(props: NavBarProps) {
     setAlgoSelection,
     runAlgo,
     setRunAlgo,
+    resetGrid,
+    setResetGrid,
   } = props;
   return (
     <div className="navbar navbar-expand navbar-dark flex-shrink-0 fixed bg-primary border-bottom border-dark w-100 justify-content-around">
@@ -55,12 +59,20 @@ export function NavBar(props: NavBarProps) {
         >
           <div className="brand">Walls</div>
         </button>
-        <button type="button" className="btn btn-light">
+        <button
+          type="button"
+          className="btn btn-light"
+          onClick={() => {
+            setResetGrid(!resetGrid);
+          }}
+          id="resetButton"
+        >
           <i className="bi bi-arrow-counterclockwise"></i>
         </button>
         <button
           type="button"
           className="btn btn-light"
+          id="runButton"
           onClick={() => {
             setRunAlgo(true);
           }}

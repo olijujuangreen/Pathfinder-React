@@ -1,34 +1,73 @@
 import "./Grid.css";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { GridInfo } from "../utils/startingGrid";
 import { GridCell } from "./GridCell";
 import { executeAlgo, Point } from "../utils/executeAlgo.js";
 import { setTimeout } from "timers";
+import { createGrid } from "../utils/startingGrid";
 
 type GridProps = {
-  grid: GridInfo;
+  gridWidth: number;
+  gridHeight: number;
   showWalls: boolean;
   runAlgo: boolean;
+  setRunAlgo: React.Dispatch<React.SetStateAction<boolean>>;
+  resetGrid: boolean;
 };
 
 export function Grid(props: GridProps) {
-  const { grid, showWalls, runAlgo } = props;
+  const { gridWidth, gridHeight, showWalls, setRunAlgo, runAlgo, resetGrid } =
+    props;
+  const [gridInfo, setGridInfo] = useState(
+    createGrid(gridWidth, gridHeight) as GridInfo
+  );
 
-  const cellTypeRef: React.Dispatch<React.SetStateAction<string>>[][] = [];
-  for (let i = 0; i < grid.height; i++) {
-    cellTypeRef.push([] as React.Dispatch<React.SetStateAction<string>>[]);
-  }
+  // let cellTypeRef: React.Dispatch<React.SetStateAction<string>>[][] = [];
+  // for (let i = 0; i < gridInfo.grid.length; i++) {
+  //   cellTypeRef.push([] as React.Dispatch<React.SetStateAction<string>>[]);
+  // }
+
+  let grid = gridInfo.grid.map((row) => {
+    return row.map((cell) => {
+      const [type, setType] = useState(cell.type);
+      const gridCell = (
+        <GridCell
+          cell={cell}
+          id={cell.id}
+          key={cell.id}
+          showWalls={showWalls}
+          type={type}
+        />
+      );
+      return { type, setType, cell: gridCell };
+    });
+  });
+
+  const reset = () => {
+    setRunAlgo(false);
+    const newGridInfo = createGrid(gridWidth, gridHeight);
+    newGridInfo.grid.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        grid[y][x].setType(cell.type);
+      });
+    });
+    setGridInfo(newGridInfo);
+  };
+
+  useEffect(() => {
+    reset();
+  }, [resetGrid]);
 
   const delayMultiplier = 5;
 
   useEffect(() => {
     if (runAlgo) {
-      const { orderOfVisits, path } = executeAlgo(grid, "DFS", showWalls);
+      const { orderOfVisits, path } = executeAlgo(gridInfo, "DFS", showWalls);
       if (orderOfVisits) {
         orderOfVisits.forEach((point: Point, index: number) => {
           setTimeout(() => {
-            cellTypeRef[point.y][point.x]("visited");
+            grid[point.y][point.x].setType("visited");
           }, index * delayMultiplier);
         });
       }
@@ -36,65 +75,32 @@ export function Grid(props: GridProps) {
         if (path) {
           path.forEach((point: Point, index) => {
             setTimeout(() => {
-              cellTypeRef[point.y][point.x]("path");
+              grid[point.y][point.x].setType("path");
             }, index * delayMultiplier);
           });
         }
       }, orderOfVisits.length * delayMultiplier);
+      const resetButton = document.getElementById(
+        "resetButton"
+      ) as HTMLButtonElement;
+      const runButton = document.getElementById(
+        "runButton"
+      ) as HTMLButtonElement;
+      resetButton.disabled = true;
+      runButton.disabled = true;
+      setTimeout(() => {
+        resetButton.disabled = false;
+        runButton.disabled = false;
+      }, (orderOfVisits.length + path.length) * delayMultiplier);
     }
   }, [runAlgo]);
 
   return (
     <main className="flex-shrink-0 bg-light">
       <div className="grid">
-        {grid.grid.flatMap((row, y) => {
-          return row.map((cell, x) => {
-            if (cell.isStart) {
-              const [type, setType] = useState("start");
-              cellTypeRef[y].push(setType);
-              return (
-                <GridCell
-                  cell={cell}
-                  key={cell.id}
-                  showWalls={showWalls}
-                  type={type}
-                />
-              );
-            }
-            if (cell.isTarget) {
-              const [type, setType] = useState("target");
-              cellTypeRef[y].push(setType);
-              return (
-                <GridCell
-                  cell={cell}
-                  key={cell.id}
-                  showWalls={showWalls}
-                  type={type}
-                />
-              );
-            }
-            if (cell.isWall) {
-              const [type, setType] = useState("wall");
-              cellTypeRef[y].push(setType);
-              return (
-                <GridCell
-                  cell={cell}
-                  key={cell.id}
-                  showWalls={showWalls}
-                  type={type}
-                />
-              );
-            }
-            const [type, setType] = useState("");
-            cellTypeRef[y].push(setType);
-            return (
-              <GridCell
-                cell={cell}
-                key={cell.id}
-                showWalls={showWalls}
-                type={type}
-              />
-            );
+        {grid.flatMap((row) => {
+          return row.map((cell) => {
+            return cell.cell;
           });
         })}
       </div>
