@@ -2,8 +2,6 @@ import { v4 as uuidv4 } from "uuid";
 
 export type GridInfo = {
   grid: Grid;
-  width: number;
-  height: number;
   startingPoint: { x: number; y: number };
   targetPoint: { x: number; y: number };
 };
@@ -14,6 +12,7 @@ export type Cell = {
   id: string;
   x: number;
   y: number;
+  type: string;
   isStart: boolean;
   isTarget: boolean;
   isWall: boolean;
@@ -31,6 +30,7 @@ export function createGrid(width: number, height: number): GridInfo {
         id: uuidv4(),
         x,
         y,
+        type: "",
         isStart: false,
         isTarget: false,
         isWall: false,
@@ -47,19 +47,19 @@ export function createGrid(width: number, height: number): GridInfo {
   const endX = Math.floor(width * Math.random());
   const endY = Math.floor((height / 4) * Math.random() + height * (3 / 4));
   grid[startY][startX].isStart = true;
+  grid[startY][startX].type = "start";
   grid[endY][endX].isTarget = true;
+  grid[endY][endX].type = "target";
   for (let i = 0; i < n / 5; i++) {
     const randomX = Math.floor(Math.random() * width);
     const randomY = Math.floor(Math.random() * height);
     if (!grid[randomY][randomX].isStart && !grid[randomY][randomX].isTarget) {
       grid[randomY][randomX].isWall = true;
+      grid[randomY][randomX].type = "wall";
     }
   }
-  console.log("Grid is: ", grid);
   return {
     grid,
-    width,
-    height,
     startingPoint: { x: startX, y: startY },
     targetPoint: { x: endX, y: endY },
   };
