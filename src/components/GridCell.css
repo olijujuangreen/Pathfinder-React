@@ -5,6 +5,7 @@
   height: calc(100vw / 50);
   min-height: 1.5rem;
   border: 1px solid var(--border-color);
+  transition: background-color 200ms linear;
 }
 
 .start {
