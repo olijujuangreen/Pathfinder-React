@@ -1,27 +1,18 @@
 import "./GridCell.css";
+import { useEffect } from "react";
 import { Cell } from "../utils/startingGrid";
 
 type GridCellType = {
   cell: Cell;
-  hasWalls: boolean;
+  showWalls: boolean;
+  type: string;
 };
 
 export function GridCell(props: GridCellType) {
-  const { cell, hasWalls } = props;
+  const { cell, showWalls, type } = props;
 
-  let classList = "cell";
-
-  if (cell.isStart) {
-    classList = "cell start";
-  }
-
-  if (cell.isTarget) {
-    classList = "cell target";
-  }
-
-  if (cell.isWall && hasWalls) {
-    classList = "cell wall";
-  }
+  let classList =
+    type === "wall" ? (showWalls ? "cell wall" : "cell") : `cell ${type}`;
 
   return (
     <div className={classList} id={cell.id}>
