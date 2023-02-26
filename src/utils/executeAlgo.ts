@@ -17,6 +17,7 @@ export function executeAlgo(
   const width = grid.grid[0].length;
 
   if (algo === "DFS") {
+    console.log("DFS RUN");
     const visited = [];
     for (let y = 0; y < height; y++) {
       visited[y] = Array(width).fill(false);
@@ -34,6 +35,8 @@ export function executeAlgo(
       path
     );
     return { orderOfVisits, path: path.reverse() };
+  } else if (algo === "BFS") {
+    console.log("BFS RUNS");
   }
 
   // TEMPORARY FIX
