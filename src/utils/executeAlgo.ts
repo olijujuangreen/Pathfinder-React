@@ -14,13 +14,10 @@ export function executeAlgo(
   algo: string,
   obeyWalls: boolean
 ): AlgoResult {
-  console.log("Run Algo");
-
   const height = grid.grid.length;
   const width = grid.grid[0].length;
 
   if (algo === "DFS") {
-    console.log("Run DFS");
     const visited = [];
     for (let y = 0; y < height; y++) {
       visited[y] = Array(width).fill(false);
@@ -41,7 +38,6 @@ export function executeAlgo(
   }
 
   if (algo === "BFS") {
-    console.log("Run BFS");
     const visited = [];
     for (let y = 0; y < height; y++) {
       visited[y] = Array(width).fill(false);

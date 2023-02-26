@@ -37,7 +37,6 @@ export function breadthFirstSearch(
     // Grab a point from the queue
 
     const { currentPoint, currentPath } = queue.shift() as BFSQueueItem;
-    console.log(currentPoint, currentPath);
     if (visited[currentPoint.y][currentPoint.x]) {
       continue;
     }
@@ -63,7 +62,6 @@ export function breadthFirstSearch(
       obeyWalls,
       visited
     );
-    console.log(neighbors);
 
     // Add new points to the queue
     neighbors.forEach((neighbor) => {
