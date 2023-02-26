@@ -1,4 +1,5 @@
 import { depthFirstSearch } from "./dfs";
+import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
 
 export type Point = { x: number; y: number };
@@ -13,17 +14,19 @@ export function executeAlgo(
   algo: string,
   obeyWalls: boolean
 ): AlgoResult {
+  console.log("Run Algo");
+
   const height = grid.grid.length;
   const width = grid.grid[0].length;
 
   if (algo === "DFS") {
-    console.log("DFS RUN");
+    console.log("Run DFS");
     const visited = [];
     for (let y = 0; y < height; y++) {
       visited[y] = Array(width).fill(false);
     }
-    const orderOfVisits: { x: number; y: number }[] = [];
-    const path: { x: number; y: number }[] = [];
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
     depthFirstSearch(
       grid.startingPoint,
       grid.grid,
@@ -35,8 +38,27 @@ export function executeAlgo(
       path
     );
     return { orderOfVisits, path: path.reverse() };
-  } else if (algo === "BFS") {
-    console.log("BFS RUNS");
+  }
+
+  if (algo === "BFS") {
+    console.log("Run BFS");
+    const visited = [];
+    for (let y = 0; y < height; y++) {
+      visited[y] = Array(width).fill(false);
+    }
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
+    breadthFirstSearch(
+      grid.startingPoint,
+      grid.grid,
+      width,
+      height,
+      obeyWalls,
+      visited,
+      orderOfVisits,
+      path
+    );
+    return { orderOfVisits, path };
   }
 
   // TEMPORARY FIX

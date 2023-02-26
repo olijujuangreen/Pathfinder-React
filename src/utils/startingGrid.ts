@@ -9,7 +9,6 @@ export type GridInfo = {
 export type Grid = Cell[][];
 
 export type Cell = {
-  parent: { x: number; y: number };
   id: string;
   x: number;
   y: number;
