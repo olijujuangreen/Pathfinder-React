@@ -1,4 +1,5 @@
 import { depthFirstSearch } from "./dfs";
+import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
 
 export type Point = { x: number; y: number };
@@ -21,8 +22,8 @@ export function executeAlgo(
     for (let y = 0; y < height; y++) {
       visited[y] = Array(width).fill(false);
     }
-    const orderOfVisits: { x: number; y: number }[] = [];
-    const path: { x: number; y: number }[] = [];
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
     depthFirstSearch(
       grid.startingPoint,
       grid.grid,
@@ -34,6 +35,26 @@ export function executeAlgo(
       path
     );
     return { orderOfVisits, path: path.reverse() };
+  }
+
+  if (algo === "BFS") {
+    const visited = [];
+    for (let y = 0; y < height; y++) {
+      visited[y] = Array(width).fill(false);
+    }
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
+    breadthFirstSearch(
+      grid.startingPoint,
+      grid.grid,
+      width,
+      height,
+      obeyWalls,
+      visited,
+      orderOfVisits,
+      path
+    );
+    return { orderOfVisits, path };
   }
 
   // TEMPORARY FIX

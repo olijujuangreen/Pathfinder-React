@@ -23,11 +23,6 @@ export function Grid(props: GridProps) {
     createGrid(gridWidth, gridHeight) as GridInfo
   );
 
-  // let cellTypeRef: React.Dispatch<React.SetStateAction<string>>[][] = [];
-  // for (let i = 0; i < gridInfo.grid.length; i++) {
-  //   cellTypeRef.push([] as React.Dispatch<React.SetStateAction<string>>[]);
-  // }
-
   let grid = gridInfo.grid.map((row) => {
     return row.map((cell) => {
       const [type, setType] = useState(cell.type);
@@ -59,11 +54,11 @@ export function Grid(props: GridProps) {
     reset();
   }, [resetGrid]);
 
-  const delayMultiplier = 5;
+  const delayMultiplier = 4;
 
   useEffect(() => {
     if (runAlgo) {
-      const { orderOfVisits, path } = executeAlgo(gridInfo, "DFS", showWalls);
+      const { orderOfVisits, path } = executeAlgo(gridInfo, "BFS", showWalls);
       if (orderOfVisits) {
         orderOfVisits.forEach((point: Point, index: number) => {
           setTimeout(() => {
