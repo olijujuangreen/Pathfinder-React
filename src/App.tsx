@@ -27,6 +27,7 @@ function App() {
         gridWidth={width}
         gridHeight={height}
         showWalls={showWalls}
+        algoSelection={algoSelection}
         setRunAlgo={setRunAlgo}
         runAlgo={runAlgo}
         resetGrid={resetGrid}

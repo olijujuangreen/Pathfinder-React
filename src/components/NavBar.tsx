@@ -30,6 +30,7 @@ export function NavBar(props: NavBarProps) {
         <div className="d-flex align-content-center justify-content-center">
           <div className="navbar-brand">Choose an Algorithm: </div>
           <select
+            id="algoSelect"
             className="form-select-sm text-bg-light"
             aria-label="Default select example"
             value={algoSelection}

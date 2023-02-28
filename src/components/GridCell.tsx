@@ -7,10 +7,11 @@ type GridCellType = {
   showWalls: boolean;
   type: string;
   id: string;
+  algoSelection: string;
 };
 
 export function GridCell(props: GridCellType) {
-  const { cell, showWalls, type, id } = props;
+  const { cell, showWalls, type, id, algoSelection } = props;
 
   useEffect(() => {
     classList =
@@ -24,7 +25,11 @@ export function GridCell(props: GridCellType) {
     <div className={classList} id={id}>
       {cell.isStart && <i className="bi bi-cursor-fill"></i>}
       {cell.isTarget && <i className="bi bi-flag-fill"></i>}
-      {/* {!cell.isStart && !cell.isWall && !cell.isTarget && cell.weight} */}
+      {!cell.isStart &&
+        !cell.isTarget &&
+        (showWalls ? !cell.isWall : true) &&
+        (algoSelection === "DIJKSTRA" || algoSelection === "A*") &&
+        cell.weight}
     </div>
   );
 }
