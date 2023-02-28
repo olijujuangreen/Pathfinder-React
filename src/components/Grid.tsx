@@ -11,14 +11,22 @@ type GridProps = {
   gridWidth: number;
   gridHeight: number;
   showWalls: boolean;
+  algoSelection: string;
   runAlgo: boolean;
   setRunAlgo: React.Dispatch<React.SetStateAction<boolean>>;
   resetGrid: boolean;
 };
 
 export function Grid(props: GridProps) {
-  const { gridWidth, gridHeight, showWalls, setRunAlgo, runAlgo, resetGrid } =
-    props;
+  const {
+    gridWidth,
+    gridHeight,
+    showWalls,
+    algoSelection,
+    setRunAlgo,
+    runAlgo,
+    resetGrid,
+  } = props;
   const [gridInfo, setGridInfo] = useState(
     createGrid(gridWidth, gridHeight) as GridInfo
   );
@@ -33,6 +41,7 @@ export function Grid(props: GridProps) {
           key={cell.id}
           showWalls={showWalls}
           type={type}
+          algoSelection={algoSelection}
         />
       );
       return { type, setType, cell: gridCell };
@@ -58,7 +67,11 @@ export function Grid(props: GridProps) {
 
   useEffect(() => {
     if (runAlgo) {
-      const { orderOfVisits, path } = executeAlgo(gridInfo, "BFS", showWalls);
+      const { orderOfVisits, path } = executeAlgo(
+        gridInfo,
+        algoSelection,
+        showWalls
+      );
       if (orderOfVisits) {
         orderOfVisits.forEach((point: Point, index: number) => {
           setTimeout(() => {
@@ -81,11 +94,16 @@ export function Grid(props: GridProps) {
       const runButton = document.getElementById(
         "runButton"
       ) as HTMLButtonElement;
+      const algoSelect = document.getElementById(
+        "algoSelect"
+      ) as HTMLSelectElement;
       resetButton.disabled = true;
       runButton.disabled = true;
+      algoSelect.disabled = true;
       setTimeout(() => {
         resetButton.disabled = false;
         runButton.disabled = false;
+        algoSelect.disabled = false;
       }, (orderOfVisits.length + path.length) * delayMultiplier);
     }
   }, [runAlgo]);
