@@ -58,6 +58,30 @@ export function createGrid(width: number, height: number): GridInfo {
       grid[randomY][randomX].type = "wall";
     }
   }
+  const weightsWindowWidth =
+    startX > endX
+      ? { left: endX, right: startX }
+      : { left: startX, right: endX };
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const cell = grid[y][x];
+      if (cell.isStart || cell.isTarget) {
+        cell.weight = 0;
+        continue;
+      }
+      // make points above starting point more weighted
+      if (y < startY || y > endY) {
+        cell.weight += 8;
+        continue;
+      }
+
+      // make points on sides of starting and ending points more weighted
+      if (x < weightsWindowWidth.left || x > weightsWindowWidth.right) {
+        cell.weight += 8;
+        continue;
+      }
+    }
+  }
   return {
     grid,
     startingPoint: { x: startX, y: startY },
