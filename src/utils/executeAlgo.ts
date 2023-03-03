@@ -1,3 +1,4 @@
+import { MinHeap } from "./MinHeap";
 import { depthFirstSearch } from "./dfs";
 import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
@@ -55,6 +56,82 @@ export function executeAlgo(
       path
     );
     return { orderOfVisits, path };
+  }
+
+  if (algo === "DIJKSTRA") {
+    const cell = {
+      id: "123",
+      x: 0,
+      y: 0,
+      type: "start",
+      isStart: true,
+      isTarget: false,
+      isWall: false,
+      isVisited: false,
+      isPath: false,
+      weight: 0,
+    };
+
+    const cell2 = {
+      id: "321",
+      x: 0,
+      y: 0,
+      type: "cell",
+      isStart: false,
+      isTarget: false,
+      isWall: false,
+      isVisited: false,
+      isPath: false,
+      weight: 5,
+    };
+
+    const cell3 = {
+      id: "321",
+      x: 0,
+      y: 0,
+      type: "cell",
+      isStart: false,
+      isTarget: false,
+      isWall: false,
+      isVisited: false,
+      isPath: false,
+      weight: 2,
+    };
+
+    const cell4 = {
+      id: "321",
+      x: 0,
+      y: 0,
+      type: "cell",
+      isStart: false,
+      isTarget: false,
+      isWall: false,
+      isVisited: false,
+      isPath: false,
+      weight: 8,
+    };
+
+    const cell5 = {
+      id: "321",
+      x: 0,
+      y: 0,
+      type: "cell",
+      isStart: false,
+      isTarget: false,
+      isWall: false,
+      isVisited: false,
+      isPath: false,
+      weight: 7,
+    };
+
+    const heap = new MinHeap(cell);
+    heap.insert(cell2, 1);
+    heap.insert(cell3, 3);
+    heap.insert(cell4, 6);
+    heap.insert(cell5, 2);
+    console.log(heap);
+    const currentCell = heap.pop();
+    console.log(currentCell, heap);
   }
 
   // TEMPORARY FIX
