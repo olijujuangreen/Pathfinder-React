@@ -1,6 +1,8 @@
+import { MinHeap } from "./MinHeap";
 import { depthFirstSearch } from "./dfs";
 import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
+import { dijkstra } from "./dijkstra";
 
 export type Point = { x: number; y: number };
 
@@ -54,6 +56,23 @@ export function executeAlgo(
       orderOfVisits,
       path
     );
+    return { orderOfVisits, path };
+  }
+
+  if (algo === "DIJKSTRA") {
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
+
+    dijkstra(
+      grid.startingPoint,
+      grid.grid,
+      width,
+      height,
+      obeyWalls,
+      orderOfVisits,
+      path
+    );
+
     return { orderOfVisits, path };
   }
 

@@ -84,7 +84,7 @@ export function Grid(props: GridProps) {
           path.forEach((point: Point, index) => {
             setTimeout(() => {
               grid[point.y][point.x].setType("path");
-            }, index * delayMultiplier);
+            }, index * 10 * delayMultiplier);
           });
         }
       }, orderOfVisits.length * delayMultiplier);
