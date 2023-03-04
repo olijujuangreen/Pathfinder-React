@@ -74,7 +74,7 @@ export function executeAlgo(
 
     const cell2 = {
       id: "321",
-      x: 0,
+      x: 1,
       y: 0,
       type: "cell",
       isStart: false,
@@ -88,7 +88,7 @@ export function executeAlgo(
     const cell3 = {
       id: "321",
       x: 0,
-      y: 0,
+      y: 1,
       type: "cell",
       isStart: false,
       isTarget: false,
@@ -100,35 +100,21 @@ export function executeAlgo(
 
     const cell4 = {
       id: "321",
-      x: 0,
-      y: 0,
+      x: 1,
+      y: 1,
       type: "cell",
       isStart: false,
-      isTarget: false,
+      isTarget: true,
       isWall: false,
       isVisited: false,
       isPath: false,
       weight: 8,
     };
 
-    const cell5 = {
-      id: "321",
-      x: 0,
-      y: 0,
-      type: "cell",
-      isStart: false,
-      isTarget: false,
-      isWall: false,
-      isVisited: false,
-      isPath: false,
-      weight: 7,
-    };
-
     const heap = new MinHeap(cell);
-    heap.insert(cell2, 1);
-    heap.insert(cell3, 3);
-    heap.insert(cell4, 6);
-    heap.insert(cell5, 2);
+    heap.insertOrUpdate(cell2, 1, `x${cell.x}y${cell.y}`);
+    heap.insertOrUpdate(cell3, 3, `x${cell.x}y${cell.y}`);
+    heap.insertOrUpdate(cell4, 0, `x${cell2.x}y${cell2.y}`);
     console.log(heap);
     const currentCell = heap.pop();
     console.log(currentCell, heap);

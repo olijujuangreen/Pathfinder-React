@@ -1,26 +1,45 @@
 import { Cell } from "./startingGrid";
 
 class Node {
-  prev: Node | null;
+  prev: string | null;
   distance: number;
   cell: Cell;
+  name: string;
 
-  constructor(cell: Cell, distance: number) {
-    this.prev = null;
+  constructor(cell: Cell, distance: number, prev?: string) {
+    this.prev = prev || null;
     this.cell = cell;
     this.distance = distance;
+    this.name = `x${cell.x}y${cell.y}`;
   }
 }
 
 export class MinHeap {
   heap: Node[];
+  nodeList: Set<string>;
 
   constructor(cell: Cell) {
     this.heap = [new Node(cell, 0)];
+    this.nodeList = new Set(this.heap[0].name);
   }
 
-  insert(cell: Cell, distance: number) {
-    const node = new Node(cell, distance);
+  insertOrUpdate(cell: Cell, distance: number, prev: string) {
+    const node = new Node(cell, distance, prev);
+    if (this.nodeList.has(node.name)) {
+      const index = this.heap.findIndex((storedNode) => {
+        return storedNode.name === node.name;
+      });
+      const storedNode = this.heap[index];
+
+      if (storedNode.distance > distance) {
+        storedNode.distance = distance;
+        storedNode.prev = prev;
+        this.bubbleUp(index);
+      }
+
+      return;
+    }
+
     if (!this.heap) {
       this.heap = [node];
     }
