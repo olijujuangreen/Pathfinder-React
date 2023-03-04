@@ -21,7 +21,8 @@ export class MinHeap {
 
   constructor(cell: Cell) {
     this.heap = [new Node(cell, 0)];
-    this.nodeList = new Set(this.heap[0].name);
+    this.nodeList = new Set();
+    this.nodeList.add(this.heap[0].name);
     this.size = 1;
   }
 
@@ -47,7 +48,7 @@ export class MinHeap {
       this.size = 1;
       return;
     }
-    if (this.heap.length > 0) {
+    if (this.heap.length >= 0) {
       this.heap.push(node);
       const index = this.heap.length - 1;
       this.bubbleUp(index);

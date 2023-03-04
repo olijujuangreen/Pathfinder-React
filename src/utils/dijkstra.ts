@@ -21,22 +21,30 @@ export function dijkstra(
   const queue = new MinHeap(grid[startPoint.y][startPoint.x]);
   const visited: Map<string, Node> = new Map();
 
-  let count = 5;
-
-  while (count) {
+  while (queue.size) {
     const current = queue.pop() as Node;
+    if (visited.has(current.name)) {
+      continue;
+    }
     orderOfVisits.push({ x: current.cell.x, y: current.cell.y });
 
     if (current.cell.isTarget) {
       let prev = current.prev;
       let node = current;
-      while (prev) {
-        path.push({ x: current.cell.x, y: current.cell.y });
-        node = visited.get(node.prev as string) as Node;
-        prev = node.prev;
-      }
 
-      return { orderOfVisits, path };
+      while (prev) {
+        path.push({ x: node.cell.x, y: node.cell.y });
+        if (node.prev) {
+          node = visited.get(node.prev) as Node;
+          console.log(node);
+          prev = node.prev;
+        } else {
+          break;
+        }
+      }
+      path.push(startPoint);
+      path.reverse();
+      return;
     }
 
     visited.set(current.name, current);
@@ -50,12 +58,9 @@ export function dijkstra(
     );
 
     for (const cell of neighbors) {
-      const name = `x${cell.x}y${cell.y}`;
       const distance = current.distance + cell.weight;
-      queue.insertOrUpdate(cell, distance, name);
+      queue.insertOrUpdate(cell, distance, current.name);
     }
-    console.log(queue);
-    count--;
   }
 }
 
