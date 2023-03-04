@@ -1,6 +1,6 @@
 import { Cell } from "./startingGrid";
 
-class Node {
+export class Node {
   prev: string | null;
   distance: number;
   cell: Cell;
@@ -16,11 +16,13 @@ class Node {
 
 export class MinHeap {
   heap: Node[];
+  size: number;
   nodeList: Set<string>;
 
   constructor(cell: Cell) {
     this.heap = [new Node(cell, 0)];
     this.nodeList = new Set(this.heap[0].name);
+    this.size = 1;
   }
 
   insertOrUpdate(cell: Cell, distance: number, prev: string) {
@@ -42,11 +44,14 @@ export class MinHeap {
 
     if (!this.heap) {
       this.heap = [node];
+      this.size = 1;
+      return;
     }
     if (this.heap.length > 0) {
       this.heap.push(node);
       const index = this.heap.length - 1;
       this.bubbleUp(index);
+      this.size++;
     }
   }
 
@@ -58,9 +63,11 @@ export class MinHeap {
       const min = this.heap[0];
       this.heap[0] = this.heap.pop() as Node;
       this.minHeapify(0);
+      this.size--;
       return min;
     }
     if (this.heap.length === 1) {
+      this.size = 0;
       return this.heap.pop();
     }
     return null;

@@ -2,6 +2,7 @@ import { MinHeap } from "./MinHeap";
 import { depthFirstSearch } from "./dfs";
 import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
+import { dijkstra } from "./dijkstra";
 
 export type Point = { x: number; y: number };
 
@@ -59,65 +60,20 @@ export function executeAlgo(
   }
 
   if (algo === "DIJKSTRA") {
-    const cell = {
-      id: "123",
-      x: 0,
-      y: 0,
-      type: "start",
-      isStart: true,
-      isTarget: false,
-      isWall: false,
-      isVisited: false,
-      isPath: false,
-      weight: 0,
-    };
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
 
-    const cell2 = {
-      id: "321",
-      x: 1,
-      y: 0,
-      type: "cell",
-      isStart: false,
-      isTarget: false,
-      isWall: false,
-      isVisited: false,
-      isPath: false,
-      weight: 5,
-    };
+    dijkstra(
+      grid.startingPoint,
+      grid.grid,
+      width,
+      height,
+      obeyWalls,
+      orderOfVisits,
+      path
+    );
 
-    const cell3 = {
-      id: "321",
-      x: 0,
-      y: 1,
-      type: "cell",
-      isStart: false,
-      isTarget: false,
-      isWall: false,
-      isVisited: false,
-      isPath: false,
-      weight: 2,
-    };
-
-    const cell4 = {
-      id: "321",
-      x: 1,
-      y: 1,
-      type: "cell",
-      isStart: false,
-      isTarget: true,
-      isWall: false,
-      isVisited: false,
-      isPath: false,
-      weight: 8,
-    };
-
-    const heap = new MinHeap(cell);
-    heap.insertOrUpdate(cell2, 1, `x${cell.x}y${cell.y}`);
-    heap.insertOrUpdate(cell3, 3, `x${cell.x}y${cell.y}`);
-    heap.insertOrUpdate(cell4, 0, `x${cell2.x}y${cell2.y}`);
-    console.log(heap);
-    const currentCell = heap.pop();
-    console.log(currentCell, heap);
+    return { orderOfVisits, path };
   }
 
   // TEMPORARY FIX
