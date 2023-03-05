@@ -17,6 +17,23 @@ type GridProps = {
   resetGrid: boolean;
 };
 
+type PROFILE = { VISIT_DELAY: number; PATH_DELAY: number };
+
+interface DELAY_PROFILES_MAP {
+  DFS: PROFILE;
+  BFS: PROFILE;
+  DIJKSTRA: PROFILE;
+  "A*": PROFILE;
+}
+type profileSelection = keyof DELAY_PROFILES_MAP;
+
+const DELAY_PROFILES: DELAY_PROFILES_MAP = {
+  DFS: { VISIT_DELAY: 5, PATH_DELAY: 5 },
+  BFS: { VISIT_DELAY: 5, PATH_DELAY: 30 },
+  DIJKSTRA: { VISIT_DELAY: 7, PATH_DELAY: 30 },
+  "A*": { VISIT_DELAY: 9, PATH_DELAY: 30 },
+};
+
 export function Grid(props: GridProps) {
   const {
     gridWidth,
@@ -63,8 +80,6 @@ export function Grid(props: GridProps) {
     reset();
   }, [resetGrid]);
 
-  const delayMultiplier = 4;
-
   useEffect(() => {
     if (runAlgo) {
       const { orderOfVisits, path } = executeAlgo(
@@ -72,11 +87,13 @@ export function Grid(props: GridProps) {
         algoSelection,
         showWalls
       );
+      const { VISIT_DELAY, PATH_DELAY } =
+        DELAY_PROFILES[algoSelection as profileSelection];
       if (orderOfVisits) {
         orderOfVisits.forEach((point: Point, index: number) => {
           setTimeout(() => {
             grid[point.y][point.x].setType("visited");
-          }, index * delayMultiplier);
+          }, index * VISIT_DELAY);
         });
       }
       setTimeout(() => {
@@ -84,10 +101,10 @@ export function Grid(props: GridProps) {
           path.forEach((point: Point, index) => {
             setTimeout(() => {
               grid[point.y][point.x].setType("path");
-            }, index * 10 * delayMultiplier);
+            }, index * PATH_DELAY);
           });
         }
-      }, orderOfVisits.length * delayMultiplier);
+      }, orderOfVisits.length * VISIT_DELAY);
       const resetButton = document.getElementById(
         "resetButton"
       ) as HTMLButtonElement;
@@ -104,7 +121,7 @@ export function Grid(props: GridProps) {
         resetButton.disabled = false;
         runButton.disabled = false;
         algoSelect.disabled = false;
-      }, (orderOfVisits.length + path.length) * delayMultiplier);
+      }, orderOfVisits.length * VISIT_DELAY + path.length * PATH_DELAY);
     }
   }, [runAlgo]);
 
