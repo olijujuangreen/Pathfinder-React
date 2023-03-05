@@ -41,6 +41,7 @@ export function NavBar(props: NavBarProps) {
             <option value="BFS">BFS</option>
             <option value="DFS">DFS</option>
             <option value="DIJKSTRA">Dijkstra</option>
+            <option value="A*">A*</option>
           </select>
         </div>
         <button
