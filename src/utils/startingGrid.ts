@@ -19,6 +19,7 @@ export type Cell = {
   isVisited: boolean;
   isPath: boolean;
   weight: number;
+  distanceToTarget: number;
 };
 
 export function createGrid(width: number, height: number): GridInfo {
@@ -37,6 +38,7 @@ export function createGrid(width: number, height: number): GridInfo {
         isVisited: false,
         isPath: false,
         weight: randomWeight(5),
+        distanceToTarget: Number.MAX_SAFE_INTEGER,
       });
     }
     grid.push(row);
@@ -65,6 +67,17 @@ export function createGrid(width: number, height: number): GridInfo {
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const cell = grid[y][x];
+      if (cell.isTarget) {
+        cell.distanceToTarget = 0;
+      } else {
+        // a^2 + b^2 = c^2
+        // endX = X
+        // endY = Y
+        const a = Math.abs(endY - cell.y);
+        const b = Math.abs(endX - cell.x);
+        const c = Math.sqrt(a * a + b * b);
+        cell.distanceToTarget = c;
+      }
       if (cell.isStart || cell.isTarget) {
         cell.weight = 0;
         continue;
