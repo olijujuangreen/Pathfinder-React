@@ -26,18 +26,24 @@ export class MinHeap {
     this.size = 1;
   }
 
-  insertOrUpdate(cell: Cell, distance: number, prev: string) {
+  insertOrUpdate(
+    cell: Cell,
+    distance: number,
+    prev: string,
+    aStar: boolean = false
+  ) {
     const node = new Node(cell, distance, prev);
     if (this.nodeList.has(node.name)) {
-      const index = this.heap.findIndex((storedNode) => {
-        return storedNode.name === node.name;
+      const index = this.heap.findIndex((searchedNode) => {
+        return searchedNode.name === node.name;
       });
+
       const storedNode = this.heap[index];
 
       if (storedNode.distance > distance) {
         storedNode.distance = distance;
         storedNode.prev = prev;
-        this.bubbleUp(index);
+        this.bubbleUp(index, aStar);
       }
 
       return;
@@ -74,18 +80,31 @@ export class MinHeap {
     return null;
   }
 
-  private bubbleUp(index: number) {
+  private bubbleUp(index: number, aStar: boolean = false) {
     const node = this.heap[index];
     while (index > 0) {
       const parentIndex = Math.floor((index - 1) / 2);
       const parent = this.heap[parentIndex];
 
-      if (parent.distance > node.distance) {
-        this.heap[parentIndex] = node;
-        this.heap[index] = parent;
-        index = parentIndex;
+      if (aStar) {
+        if (
+          parent.distance + parent.cell.distanceToTarget >
+          node.distance + node.cell.distanceToTarget
+        ) {
+          this.heap[parentIndex] = node;
+          this.heap[index] = parent;
+          index = parentIndex;
+        } else {
+          break;
+        }
       } else {
-        break;
+        if (parent.distance > node.distance) {
+          this.heap[parentIndex] = node;
+          this.heap[index] = parent;
+          index = parentIndex;
+        } else {
+          break;
+        }
       }
     }
   }

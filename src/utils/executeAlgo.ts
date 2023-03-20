@@ -1,8 +1,8 @@
-import { MinHeap } from "./MinHeap";
 import { depthFirstSearch } from "./dfs";
 import { breadthFirstSearch } from "./bfs";
 import { GridInfo } from "./startingGrid";
 import { dijkstra } from "./dijkstra";
+import { aStar } from "./aStar";
 
 export type Point = { x: number; y: number };
 
@@ -18,6 +18,7 @@ export function executeAlgo(
 ): AlgoResult {
   const height = grid.grid.length;
   const width = grid.grid[0].length;
+  console.log(algo);
 
   if (algo === "DFS") {
     const visited = [];
@@ -64,6 +65,24 @@ export function executeAlgo(
     const path: Point[] = [];
 
     dijkstra(
+      grid.startingPoint,
+      grid.grid,
+      width,
+      height,
+      obeyWalls,
+      orderOfVisits,
+      path
+    );
+
+    return { orderOfVisits, path };
+  }
+
+  if (algo === "A*") {
+    console.log("Running astar");
+    const orderOfVisits: Point[] = [];
+    const path: Point[] = [];
+
+    aStar(
       grid.startingPoint,
       grid.grid,
       width,
