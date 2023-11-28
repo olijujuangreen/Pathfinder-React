@@ -4,6 +4,8 @@ import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfil
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import rollupNodePolyFill from "rollup-plugin-node-polyfills";
 // https://vitejs.dev/config/
+
+const base = process.env.NODE_ENV === "production" ? "/Pathfinder-React/" : "/";
 export default defineConfig({
   resolve: {
     alias: {
@@ -11,7 +13,7 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-  base: "/Pathfinder-React/",
+  base,
   optimizeDeps: {
     esbuildOptions: {
       // Node.js global to browser globalThis
